@@ -15,7 +15,7 @@ To run the project you need the P3 simulator:
 
 ## How to run
 ### P3JS
-To run the project in this simulator, your just need go to the [P3JS](https://p3js.goncalomb.com/) site,
+To run the project in this simulator, you just need go to the [P3JS](https://p3js.goncalomb.com/) site,
 paste the source code to the editor and click "Assemble and Run".
 
 ### p3sim
