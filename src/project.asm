@@ -1,14 +1,14 @@
 ; *==============================================*
 ; *                          			 *
-; * PROJETO IAC 1∫ SEMESTRE: PASSARO BAMBOLEANTE *
+; * PROJETO IAC 1¬∫ SEMESTRE: PASSARO BAMBOLEANTE *
 ; *                          		         *
 ; *==============================================*
 ; *============================*
 ; * Trabalho realizado por:    *       
-; * Am‚ndio Faustino   N∫83422 *
-; * Jo„o Sousa	       N∫83487 *        
-; * Pedro Lopes	       N∫83540 *
-; *                Grupo n∫ 48 *
+; * Am√¢ndio Faustino   N¬∫83422 *
+; * Jo√£o Sousa	       N¬∫83487 *        
+; * Pedro Lopes	       N¬∫83540 *
+; *                Grupo n¬∫ 48 *
 ; *============================*
 ;###########################################
 ;#              CONSTANTES                 #
@@ -79,11 +79,11 @@ POS_SCORE	EQU	0E2Ah
 
 ;Constantes Tubos
 NUM_MAX_TUBOS	EQU	7				;Esta constante tem de ser sempre igual ao nr TAB TUBOS -1
-ESPACO_TUBOS	EQU	10				;EspaÁo entre tubos
-NO_NEED		EQU	0012h				;Coluna a partir do qual j· n„o interessa verificar a Colis„o com um determinado obst·culo
+ESPACO_TUBOS	EQU	10				;Espa√ßo entre tubos
+NO_NEED		EQU	0012h				;Coluna a partir do qual j√° n√£o interessa verificar a Colis√£o com um determinado obst√°culo
 
 ;Constantes Passaro
-POS_PASSARO	EQU	0C14h				;Primeira posiÁ„o do p·ssaro
+POS_PASSARO	EQU	0C14h				;Primeira posi√ß√£o do p√°ssaro
 
 ;Constantes Gravidade
 DURACAOTICK	EQU	1				;Refresh rate
@@ -102,14 +102,14 @@ DISPLAY_N2	EQU	FF00h
 DISPLAY_N3	EQU	FFF0h
 
 ;Constantes Distancia/Obstaculos
-DIST_SEM_OBS	EQU	003Bh				;Distancia percorrida atÈ encontrar o primeiro obst·culo. 
+DIST_SEM_OBS	EQU	003Bh				;Distancia percorrida at√© encontrar o primeiro obst√°culo. 
 CONV_ASCII	EQU	0030h
 
-;Constantes sobre Vari·veis
+;Constantes sobre Vari√°veis
 ZONA_VARS	EQU	8000h
 NUM_VARS	EQU	32
 MUDA_NIVEL_VAR	EQU	2
-ESPACO_ATUALVAR	EQU	10				;… importante esta constante estar igual ESPACO_TUBOS. 
+ESPACO_ATUALVAR	EQU	10				;√â importante esta constante estar igual ESPACO_TUBOS. 
 		
 ;###########################################
 ;#               VARIAVEIS                 #
@@ -157,7 +157,7 @@ TextoLCD	STR	'Distancia: 00000@'
 
 
 ;###########################################
-;#         TABELA DE INTERRUP«OES          #
+;#         TABELA DE INTERRUP√áOES          #
 ;###########################################
 		ORIG    FE00h
 INT0            WORD    SOBE
@@ -168,23 +168,23 @@ INT3		WORD	STARTGAME
 		ORIG	FE0Fh
 INT15		WORD	TEMPORIZADOR
 
-;DocumentaÁ„o:
-; 	R1 - Registo fixo com o valor da posiÁ„o do p·ssaro
-;	R2 - Registo fixo com o valor da posiÁ„o do p·ssaro
+;Documenta√ß√£o:
+; 	R1 - Registo fixo com o valor da posi√ß√£o do p√°ssaro
+;	R2 - Registo fixo com o valor da posi√ß√£o do p√°ssaro
 ;	I0 - Saltar
-;	I1 - Diminuir nÌvel/Continuar
-;	I2 - Aumentar nÌvel
+;	I1 - Diminuir n√≠vel/Continuar
+;	I2 - Aumentar n√≠vel
 ;	I3 - Continuar
 
 ; *============================================================================*
-; *                                 CÛdigo                                     *
+; *                                 C√≥digo                                     *
 ; *============================================================================*
                 ORIG    0000h
 		JMP	INICIO
 
 
 ;###########################################
-;#              INTERRUP«OES               #
+;#              INTERRUP√áOES               #
 ;#=========================================#
 ;# SOBE - I0                               #
 ;# COMECO_D_NIVEL - I1			   #
@@ -193,65 +193,65 @@ INT15		WORD	TEMPORIZADOR
 ;# TEMPORIZADOR - I15                      #
 ;###########################################
 ; =============================================================================*
-; TEMPORIZADOR: Rotina que trata da interrupÁ„o I15			       *
+; TEMPORIZADOR: Rotina que trata da interrup√ß√£o I15			       *
 ; =============================================================================*
 TEMPORIZADOR:	DEC	M[ASS_NIVEL]			;Decrementa sempre o contador ASS_NIVEL
 		CMP	M[SALTOU],R0			;SALTOU=0 ?, salto foi recentemente ativado?
 		BR.NZ	SALTO1				;Se sim -> SALTO1
 		INC	M[TEMPO_GRAVIDADE]		;Gravidade ativa, tempo_gravidade informa que ja pode ser atualizado o passaro
 		INC	M[CONTADOR_TEMPO]		
-		BR	FIMINT15			;Vai para o fim da interrupÁ„o
+		BR	FIMINT15			;Vai para o fim da interrup√ß√£o
 SALTO1:		MOV	M[TEMPO_GRAVIDADE],R0		;Reinicia os contadores da gravidade.
 		MOV	M[CONTADOR_TEMPO],R0
-		INC	M[TEMPO_SALTO]			;Passou tempo suficiente para subir mais uma posiÁ„o
-FIMINT15:	MOV	R7,DIF_TEMPO			;ConfiguraÁ„o para a prÛxima interrupÁ„o do temporizador
+		INC	M[TEMPO_SALTO]			;Passou tempo suficiente para subir mais uma posi√ß√£o
+FIMINT15:	MOV	R7,DIF_TEMPO			;Configura√ß√£o para a pr√≥xima interrup√ß√£o do temporizador
 		MOV	M[DIF_TEMPO_M],R7
 		MOV	R7,EST_RELOG
 		MOV 	M[EST_RELOG_M],R7				
 		RTI	
 
 ; =============================================================================*
-; SOBE: Rotina que trata da interrupÁ„o I0, gere o salto do p·ssaro	       *
+; SOBE: Rotina que trata da interrup√ß√£o I0, gere o salto do p√°ssaro	       *
 ; =============================================================================*
 SOBE:		PUSH	R3
 		CMP	M[SALTOU],R0			;SALTOU recentemente ?
-		BR.NZ	FIMSOBE				;Se sim n„o incrementa mais -> FIM SOBE
-		MOV	R3,ALTURA_SALTO			;Caso contr·rio coloca altura do salto em SALTOU
+		BR.NZ	FIMSOBE				;Se sim n√£o incrementa mais -> FIM SOBE
+		MOV	R3,ALTURA_SALTO			;Caso contr√°rio coloca altura do salto em SALTOU
 		ADD	M[SALTOU],R3
 FIMSOBE:	POP	R3
 		RTI
 
 ; =============================================================================*
-; COMECO_D_NIVEL:Rotina que trata da interrupÁ„o I1, gere a mudanÁa de nÌvel   *
+; COMECO_D_NIVEL:Rotina que trata da interrup√ß√£o I1, gere a mudan√ßa de n√≠vel   *
 ;                (diminui) e o inicio do jogo*                                 *
 ; =============================================================================*
 COMECO_D_NIVEL:	PUSH	R7
 		MOV	R7,2
-		CMP	R7,M[MUDA_NIVEL]		;Incrementa nÌvel atÈ ao limite 2. Ficando o nivel mais lento(necessita de mais interrupÁoes para avancar)
+		CMP	R7,M[MUDA_NIVEL]		;Incrementa n√≠vel at√© ao limite 2. Ficando o nivel mais lento(necessita de mais interrup√ßoes para avancar)
 		BR.Z	FIM_INT1
 		INC	M[MUDA_NIVEL]
-FIM_INT1:	MOV	R7, 1				;Cada vez que I1 È gerada, M[I1]=1
+FIM_INT1:	MOV	R7, 1				;Cada vez que I1 √© gerada, M[I1]=1
 		MOV	M[I1],R7
 		POP	R7
 		RTI
 
 ; =============================================================================*
-; AUMENTA_NIVEL: Rotina que trata da interrupÁ„o I2, gere a mudanÁa de nÌvel   *
+; AUMENTA_NIVEL: Rotina que trata da interrup√ß√£o I2, gere a mudan√ßa de n√≠vel   *
 ;		 (aumenta)						       *
 ; =============================================================================*
 AUMENTA_NIVEL:	PUSH	R7
-		CMP	M[MUDA_NIVEL],R0		;Decrementa nÌvel atÈ limite 0. Ficando o nivel mais rapido(necessita de menos interrupÁoes para avancar)	
+		CMP	M[MUDA_NIVEL],R0		;Decrementa n√≠vel at√© limite 0. Ficando o nivel mais rapido(necessita de menos interrup√ßoes para avancar)	
 		BR.Z	FIM_INT2
 		DEC	M[MUDA_NIVEL]
 FIM_INT2:	POP	R7
 		RTI
 
 ; =============================================================================*
-; STARTGAME: Rotina que trata da interrupÁ„o I3, gere a continuaÁ„o do menu1   *
+; STARTGAME: Rotina que trata da interrup√ß√£o I3, gere a continua√ß√£o do menu1   *
 ; =============================================================================*
 STARTGAME:	PUSH	R7
 		MOV	R7, 1
-		MOV	M[I3],R7			;Cada vez que I3 È gerada, M[I3]=1
+		MOV	M[I3],R7			;Cada vez que I3 √© gerada, M[I3]=1
 		POP	R7
 		RTI
 
@@ -279,17 +279,17 @@ STARTGAME:	PUSH	R7
 ;# COLISION_V				   #
 ;###########################################
 ; =============================================================================*
-; RESET_VARS: Rotina que reinicializa as vari·veis. 			       *
+; RESET_VARS: Rotina que reinicializa as vari√°veis. 			       *
 ; =============================================================================*
 RESET_VARS:	PUSH	R3
 		PUSH	R4
 		MOV	R3, ZONA_VARS
 		MOV	R4, NUM_VARS
-CICLO:		MOV	M[R3],R0			;Ciclo que coloca 'NUM_VARS' espaÁos de memÛria a 0
+CICLO:		MOV	M[R3],R0			;Ciclo que coloca 'NUM_VARS' espa√ßos de mem√≥ria a 0
 		INC	R3
 		DEC	R4
 		BR.NZ	CICLO
-		MOV	R3, 0002h			;Outras vari·veis que n„o comeÁam a 0
+		MOV	R3, 0002h			;Outras vari√°veis que n√£o come√ßam a 0
 		MOV	M[MUDA_NIVEL], R3
 		MOV	R3, 000Ah
 		MOV	M[ESPACO_ATUAL],R3
@@ -298,7 +298,7 @@ CICLO:		MOV	M[R3],R0			;Ciclo que coloca 'NUM_VARS' espaÁos de memÛria a 0
 		RET
 
 ; =============================================================================*
-; LINHA: Rotina que cria uma linha de 79 traÁos horizontalmente. O argumento È *
+; LINHA: Rotina que cria uma linha de 79 tra√ßos horizontalmente. O argumento √© *
 ;	 recebido pelo porto COORD_TRACO			               *
 ; =============================================================================*
 LINHA:		PUSH	R3
@@ -328,7 +328,7 @@ ESCREVESTR:	PUSH	R3
 		MOV	R3,M[SP+7]			;Em R3 fica a string 
 		MOV	R4,M[SP+6]			;Em R4 a posicao do primeiro caracter
 		MOV	R5,FIM_STR			;Em R5 o caracter de fim de texto
-CICLO_ESC_STR:	CMP	M[R3],R5			;O carater È o @?
+CICLO_ESC_STR:	CMP	M[R3],R5			;O carater √© o @?
 		BR.Z	FIM_ESC_STR
 		MOV	R6,M[R3]
 		MOV	M[CURSOR_JT],R4
@@ -353,7 +353,7 @@ ESCREVESTR_LCD:	PUSH	R3
 		MOV	R3,M[SP+7]			;Em R3 fica a string (pela pilha)
 		MOV	R4,M[SP+6]			;Em R4 a posicao do primeiro caracter (pela pilha)
 		MOV	R5,FIM_STR			;Em R5 o caracter de fim de texto
-CICLOESCSTR_LCD:CMP	M[R3],R5			;O carater È o @?
+CICLOESCSTR_LCD:CMP	M[R3],R5			;O carater √© o @?
 		BR.Z	FIMESC_STR_LCD
 		MOV	R6,M[R3]
 		MOV	M[CURSOR_LCD],R4
@@ -369,7 +369,7 @@ FIMESC_STR_LCD:	POP	R6
 
 ; =============================================================================*
 ; EscStringNLCD: Processa um numero de 16 bits e escreve no LCD, em cada posi- *
-;                Áao consecutiva, um digito que corresponde a cada 4 bits do   *
+;                √ßao consecutiva, um digito que corresponde a cada 4 bits do   *
 ;		 numero.						       *
 ;		 Recebe os argumentos pela pilha (Posicao e String)	       *
 ; =============================================================================*
@@ -377,8 +377,8 @@ EscStringNLCD:	PUSH	R3
 		PUSH	R4
 		PUSH	R5
 		MOV	R3,M[SP+6]			;Recebe o numero pela pilha
-		MOV	R5,M[SP+5]			;Recebe a posiÁao pela pilha
-		ADD	R5,5				;Escrevemos o numero de tras para a frente (direita para a esquerda) logo o R5 tem a ultima posiÁao
+		MOV	R5,M[SP+5]			;Recebe a posi√ßao pela pilha
+		ADD	R5,5				;Escrevemos o numero de tras para a frente (direita para a esquerda) logo o R5 tem a ultima posi√ßao
 CICLONLCD:	CMP	R5,M[SP+5]
 		BR.Z	FIMNLCD
 		MOV	R4,10				;Dividir o numero por 10 para tirar o algarismo da direita
@@ -407,28 +407,28 @@ AtualizaD7S:	PUSH	R3
 		DIV	R4,R3				;Que fica em R3
 		MOV	M[IO_DISPLAY_1],R3		;Coloca no display 
 		OR	R3,CONV_ASCII
-		MOV	M[R5+3],R3			;Coloca na 4™ posiÁ„o do TAB SCORE (ser usado como string)
+		MOV	M[R5+3],R3			;Coloca na 4¬™ posi√ß√£o do TAB SCORE (ser usado como string)
 		MOV	R3,10
 		DIV	R4,R3
 		MOV	M[IO_DISPLAY_2], R3	
 		OR	R3,CONV_ASCII
-		MOV	M[R5+2],R3			;Coloca na 3™ posiÁ„o do TAB SCORE (ser usado como string)
+		MOV	M[R5+2],R3			;Coloca na 3¬™ posi√ß√£o do TAB SCORE (ser usado como string)
 		MOV	R3,10
 		DIV	R4,R3
 		MOV	M[IO_DISPLAY_3], R3
 		OR	R3,CONV_ASCII
-		MOV	M[R5+1],R3			;Coloca na 2™ posiÁ„o do TAB SCORE (ser usado como string)
+		MOV	M[R5+1],R3			;Coloca na 2¬™ posi√ß√£o do TAB SCORE (ser usado como string)
 		MOV	M[IO_DISPLAY_4], R4
 		OR	R4,CONV_ASCII
-		MOV	M[R5],R4			;Coloca na 1™ posiÁ„o do TAB SCORE (ser usado como string)
+		MOV	M[R5],R4			;Coloca na 1¬™ posi√ß√£o do TAB SCORE (ser usado como string)
 		POP	R5
 		POP	R4
 		POP	R3
 		RET		
 		
 ; =============================================================================*
-; MENU1: Rotina que desenha a interface do primeiro menu. Neste menu È possivel*
-;	 mudar os nÌveis do jogo					       *
+; MENU1: Rotina que desenha a interface do primeiro menu. Neste menu √© possivel*
+;	 mudar os n√≠veis do jogo					       *
 ; =============================================================================*
 MENU1:		PUSH	R3				;Escreve as strings por ordem na Janela de Texto
 		PUSH	R4
@@ -515,31 +515,31 @@ CICLO_MENU1:	MOV	R7,0001h
 LEVEL_1:	MOV	R7,NIVEL_1
 		MOV	M[NIVEL],R7			;Coloca a velocidade nivel 1 na variavel NIVEL
 		MOV	R3,POS_STR_NIVEL	
-		MOV	R4,M[NUM_1]			;Escreve o n˙mero 1 na Janela de Texto [1/3]
+		MOV	R4,M[NUM_1]			;Escreve o n√∫mero 1 na Janela de Texto [1/3]
 		MOV	M[CURSOR_JT],R3
 		MOV	M[ESCRITA_JT],R4
 		MOV	R3,IO_LED		
-		MOV	R4,DISPLAY_N1			;Atualiza os LED para o nÌvel 1
+		MOV	R4,DISPLAY_N1			;Atualiza os LED para o n√≠vel 1
 		MOV	M[R3],R4
-		JMP	TEST_I3				;Testa a interrupÁ„o I3
+		JMP	TEST_I3				;Testa a interrup√ß√£o I3
 LEVEL_2:	MOV	R7,NIVEL_2
 		MOV	M[NIVEL],R7
 		MOV	R3,POS_STR_NIVEL
-		MOV	R4,M[NUM_2]			;Escreve o n˙mero 1 na Janela de Texto [2/3]
+		MOV	R4,M[NUM_2]			;Escreve o n√∫mero 1 na Janela de Texto [2/3]
 		MOV	M[CURSOR_JT],R3
 		MOV	M[ESCRITA_JT],R4
 		MOV	R3,IO_LED
-		MOV	R4,DISPLAY_N2			;Atualiza os LED para o nÌvel 2
+		MOV	R4,DISPLAY_N2			;Atualiza os LED para o n√≠vel 2
 		MOV	M[R3],R4
-		JMP	TEST_I3				;Testa a interrupÁ„o I3
+		JMP	TEST_I3				;Testa a interrup√ß√£o I3
 LEVEL_3:	MOV	R7,NIVEL_3
 		MOV	M[NIVEL],R7
 		MOV	R3,POS_STR_NIVEL
-		MOV	R4,M[NUM_3]			;Escreve o n˙mero 3 na Janela de Texto [3/3]
+		MOV	R4,M[NUM_3]			;Escreve o n√∫mero 3 na Janela de Texto [3/3]
 		MOV	M[CURSOR_JT],R3
 		MOV	M[ESCRITA_JT],R4
 		MOV	R3,IO_LED		
-		MOV	R4,DISPLAY_N3			;Atualiza os LED para o nÌvel 3
+		MOV	R4,DISPLAY_N3			;Atualiza os LED para o n√≠vel 3
 		MOV	M[R3],R4	
 TEST_I3:	CMP	M[I3],R0		
 		JMP.Z	CICLO_MENU1			;Se I3 for ativa, Limpa Janela de Texto e retorna
@@ -552,8 +552,8 @@ TEST_I3:	CMP	M[I3],R0
 		RET
 
 ; =============================================================================*
-; MENU2: Rotina que desenha a interface do segundo menu. Este È o menu de      *
-;	 preparaÁ„o.						   	       *
+; MENU2: Rotina que desenha a interface do segundo menu. Este √© o menu de      *
+;	 prepara√ß√£o.						   	       *
 ; =============================================================================*
 MENU2:		PUSH	R3				;Escreve as mensagens do menu2 na Janela de Texto
 		PUSH	R4
@@ -567,7 +567,7 @@ MENU2:		PUSH	R3				;Escreve as mensagens do menu2 na Janela de Texto
 		PUSH	R3
 		PUSH	R4
 		CALL	ESCREVESTR
-CICLO_MENU2:	INC	M[NUMRANDOM]			;Enquanto I1 n„o for ativa, incrementa o contador para a rotina RANDOMIZER (Gerar n˙mero aleatÛrio)
+CICLO_MENU2:	INC	M[NUMRANDOM]			;Enquanto I1 n√£o for ativa, incrementa o contador para a rotina RANDOMIZER (Gerar n√∫mero aleat√≥rio)
 		CMP	M[I1],R0
 		BR.Z	CICLO_MENU2			;Se I1 for ativa, Limpa Janela de Texto e retorna
 		CALL	LIMPA_JT
@@ -576,9 +576,9 @@ CICLO_MENU2:	INC	M[NUMRANDOM]			;Enquanto I1 n„o for ativa, incrementa o contado
 		RET
 
 ; =============================================================================*
-; PASSARO: Rotina que apaga o p·ssaro na posicao antiga e escreve o p·ssaro na * 
-;	   nova posiÁ„o							       *
-;	   Rotina sÛ È chamada se e sÛ se R1!=R2			       *
+; PASSARO: Rotina que apaga o p√°ssaro na posicao antiga e escreve o p√°ssaro na * 
+;	   nova posi√ß√£o							       *
+;	   Rotina s√≥ √© chamada se e s√≥ se R1!=R2			       *
 ; =============================================================================*
 PASSARO:	PUSH	R3
 		MOV	M[CURSOR_JT],R1			;Cursor vai para o valor R1 que contem o h_antigo 
@@ -600,22 +600,22 @@ PASSARO:	PUSH	R3
 		RET
 
 ; =============================================================================*
-; SALTO: Rotina que, se houve salto decrementa a linha da posiÁ„o do p·ssaro   *
-;	 (R2). Guarda a posiÁ„o final do salto em Y0	    		       *
-;	 R2 È alterado							       *
+; SALTO: Rotina que, se houve salto decrementa a linha da posi√ß√£o do p√°ssaro   *
+;	 (R2). Guarda a posi√ß√£o final do salto em Y0	    		       *
+;	 R2 √© alterado							       *
 ; =============================================================================*
-SALTO:		CMP 	M[TEMPO_SALTO],R0		;TEMPO_SALTO=0 => ainda n„o passou tempo suficiente
+SALTO:		CMP 	M[TEMPO_SALTO],R0		;TEMPO_SALTO=0 => ainda n√£o passou tempo suficiente
 		BR.Z	FIMSALTO			;Retorna
-		MOV	M[TEMPO_SALTO],R0		;Caso contr·rio, reinicia e subtrai uma linha ‡ posiÁ„o do 
-		SUB	R2,INC_LINHA			;p·ssaro (o que implica que sobe)
+		MOV	M[TEMPO_SALTO],R0		;Caso contr√°rio, reinicia e subtrai uma linha √† posi√ß√£o do 
+		SUB	R2,INC_LINHA			;p√°ssaro (o que implica que sobe)
 		DEC	M[SALTOU]
-		MOV	M[Y0],R2			;Guarda sempre a posiÁ„o do passaro em Y0 (ser usado na gravidade)
+		MOV	M[Y0],R2			;Guarda sempre a posi√ß√£o do passaro em Y0 (ser usado na gravidade)
 FIMSALTO:	RET
 
 ; =============================================================================*
-; GRAVIDADE: Rotina que apÛs um tempo sem saltar, È calculada a nova posiÁ„o do* 
-;	     p·ssaro (de tick em tick) de acordo com a fÛrmula y=y0+v0t+gt^2,  * 
-;	     v0=0. R2 È alterado					       *
+; GRAVIDADE: Rotina que ap√≥s um tempo sem saltar, √© calculada a nova posi√ß√£o do* 
+;	     p√°ssaro (de tick em tick) de acordo com a f√≥rmula y=y0+v0t+gt^2,  * 
+;	     v0=0. R2 √© alterado					       *
 ; =============================================================================*
 GRAVIDADE:	PUSH	R3
 		PUSH	R4
@@ -623,21 +623,21 @@ GRAVIDADE:	PUSH	R3
 		PUSH	R6
 		PUSH	R7
 		MOV	R3,DURACAOTICK
-		CMP 	M[TEMPO_GRAVIDADE],R3		;Se j· passou o tempo (duraÁ„otick) desde a ˙ltima vez			
-		BR.NP	FIMGRAVIDADE			;Caso contr·rio retorna
+		CMP 	M[TEMPO_GRAVIDADE],R3		;Se j√° passou o tempo (dura√ß√£otick) desde a √∫ltima vez			
+		BR.NP	FIMGRAVIDADE			;Caso contr√°rio retorna
 		MOV	R3,ACELERACAO
 		MOV	R4,M[CONTADOR_TEMPO]		;R4 TEM TEMPO
 		MOV	R5,R4				;R5=R4=T//10				
-		MOV	R6,M[Y0]			;R6 È a posiÁ„o inicial (Y0)
-		AND	R6,GET_LINHA			;R6 È a linha inicial (linha de Y0)
+		MOV	R6,M[Y0]			;R6 √© a posi√ß√£o inicial (Y0)
+		AND	R6,GET_LINHA			;R6 √© a linha inicial (linha de Y0)
 		MUL	R4,R5				;R5=T^2
 		MUL	R3,R5				;R5=ACELERACAO X T^2
 		ENI
-		ADD	R6,R5				;Soma ‡ linha inicial o valor calculado em R5
-		AND	R6,GET_LINHA			;Virgula fixa, parte inteira È o octeto de maior peso
-		ADD	R6,COLPASSARO			;Soma a coluna do p·ssaro para perfazer a coordenada da 
-		MOV	R2,R6				;posiÁ„o do p·ssaro e È passado para R2
-		MOV	M[TEMPO_GRAVIDADE],R0		;Reinicializa vari·vel
+		ADD	R6,R5				;Soma √† linha inicial o valor calculado em R5
+		AND	R6,GET_LINHA			;Virgula fixa, parte inteira √© o octeto de maior peso
+		ADD	R6,COLPASSARO			;Soma a coluna do p√°ssaro para perfazer a coordenada da 
+		MOV	R2,R6				;posi√ß√£o do p√°ssaro e √© passado para R2
+		MOV	M[TEMPO_GRAVIDADE],R0		;Reinicializa vari√°vel
 FIMGRAVIDADE:	POP	R7
 		POP	R6
 		POP	R5
@@ -646,8 +646,8 @@ FIMGRAVIDADE:	POP	R7
 		RET
 
 ; =============================================================================*
-; OBSTACULOS: Rotina que move e atualiza os obst·culos. … atualizado tambÈm as *
-;	      v·ri·veis: DISTANCIA_PER e OBS_ULTRAPASSA			       *
+; OBSTACULOS: Rotina que move e atualiza os obst√°culos. √â atualizado tamb√©m as *
+;	      v√°ri√°veis: DISTANCIA_PER e OBS_ULTRAPASSA			       *
 ; =============================================================================*
 OBSTACULOS:	PUSH	R3
 		PUSH	R4
@@ -656,34 +656,34 @@ OBSTACULOS:	PUSH	R3
 		PUSH	R7
 		MOV	R3,M[NIVEL]
 		MOV	M[ASS_NIVEL],R3			;Rinicializa o contador ASS_NIVEL
-		MOV	R4,NUM_MAX_TUBOS		;R4 numero m·ximos de tubos no vetor TUBOS
-		MOV	R6,TUBOS			;R6 È o endereÁo da primeira posiÁ„o do vetor TUBOS
-		MOV	R3,M[ESPACO_ATUAL]		;Se o espaÁo entre o ˙ltimo obstaculo n„o for ESPACO_TUBOS 
-		CMP	R3,ESPACO_TUBOS			;=> n„o cria novo obst·culo => INIC_OBS
-		BR.NZ	INIC_OBS			;Caso contr·rio
+		MOV	R4,NUM_MAX_TUBOS		;R4 numero m√°ximos de tubos no vetor TUBOS
+		MOV	R6,TUBOS			;R6 √© o endere√ßo da primeira posi√ß√£o do vetor TUBOS
+		MOV	R3,M[ESPACO_ATUAL]		;Se o espa√ßo entre o √∫ltimo obstaculo n√£o for ESPACO_TUBOS 
+		CMP	R3,ESPACO_TUBOS			;=> n√£o cria novo obst√°culo => INIC_OBS
+		BR.NZ	INIC_OBS			;Caso contr√°rio
 		MOV	M[ESPACO_ATUAL],R0		;Reinicia o contador
 		CALL 	RANDOMIZER			
 		MOV	R3,M[NEW_COL]			;R3 tem a coordenada com a linha random
-		MOV	R5,M[POS_TUBOS]			;R5 È o indice do vetor TUBOS para ser overwrited
-		MOV	R7,R6				;R7 passa a ser o endereÁo da primeira posiÁ„o do vetor TUBOS
-		ADD	R7,R5				;Adiciona o Ìndice que estava em R5
+		MOV	R5,M[POS_TUBOS]			;R5 √© o indice do vetor TUBOS para ser overwrited
+		MOV	R7,R6				;R7 passa a ser o endere√ßo da primeira posi√ß√£o do vetor TUBOS
+		ADD	R7,R5				;Adiciona o √≠ndice que estava em R5
 		MOV	M[R7],R3			;E coloca a nova coordenada que estava em R3
-		CMP	R5,R4				;Se o Ìndice dos vetores for igual ao n˙mero m·ximo de tubos do vetor
+		CMP	R5,R4				;Se o √≠ndice dos vetores for igual ao n√∫mero m√°ximo de tubos do vetor
 		BR.Z	COND_R0_POS			;=> COND_R0_POS
-		INC	M[POS_TUBOS]			;Caso contr·rio o Ìndice È incrementado
+		INC	M[POS_TUBOS]			;Caso contr√°rio o √≠ndice √© incrementado
 		BR 	CICLO_OBS
-COND_R0_POS:	MOV	M[POS_TUBOS],R0			;Onde o Ìndice retorna a 0
+COND_R0_POS:	MOV	M[POS_TUBOS],R0			;Onde o √≠ndice retorna a 0
 		BR	CICLO_OBS
-INIC_OBS:	INC	M[ESPACO_ATUAL]			;O contador do nr de colunas que passaram desde que o ˙ltimo obst·culo foi criado
-CICLO_OBS:	CMP	R4,R0				;R4 agora È visto como um contador do CICLO_OBS
+INIC_OBS:	INC	M[ESPACO_ATUAL]			;O contador do nr de colunas que passaram desde que o √∫ltimo obst√°culo foi criado
+CICLO_OBS:	CMP	R4,R0				;R4 agora √© visto como um contador do CICLO_OBS
 		BR.N	FIM_OBS				;Se chegou a menor que 0 acaba o ciclo
-		MOV	R7,M[R6]			;R7=Conte˙do de uma posiÁ„o do vetor (comeÁando no primeiro)
+		MOV	R7,M[R6]			;R7=Conte√∫do de uma posi√ß√£o do vetor (come√ßando no primeiro)
 		MOV	R5,R7
-		AND	R5,GET_COL			;R5 È a coluna dessa posiÁ„o do vetor
-		BR.Z	CONDITION			;Se for 0 ent„o n„o È atualizada e passa ao prÛximo
-		MOV	M[COL_DESE],R7			;Caso contr·rio, apaga a coluna
+		AND	R5,GET_COL			;R5 √© a coluna dessa posi√ß√£o do vetor
+		BR.Z	CONDITION			;Se for 0 ent√£o n√£o √© atualizada e passa ao pr√≥ximo
+		MOV	M[COL_DESE],R7			;Caso contr√°rio, apaga a coluna
 		CALL	APAGA_COL
-		DEC	M[R6]				;Escreve na nova posiÁ„o (=decremento de uma coluna)
+		DEC	M[R6]				;Escreve na nova posi√ß√£o (=decremento de uma coluna)
 		DEC	M[COL_DESE]
 		CALL	DESENHACOL
 CONDITION:	DEC	R4
@@ -691,7 +691,7 @@ CONDITION:	DEC	R4
 		BR 	CICLO_OBS
 FIM_OBS:	MOV	M[COL_DESE],R0			;Apaga, incondicionalmente a coluna 0 da Janela de Texto
 		CALL 	APAGA_COL
-		CALL 	DISTANCIA_TUBOS			;… atualizada as vari·veis da dist‚ncia percorrida e do n∫ de obst·culos
+		CALL 	DISTANCIA_TUBOS			;√â atualizada as vari√°veis da dist√¢ncia percorrida e do n¬∫ de obst√°culos
 		POP	R7
 		POP	R6
 		POP	R5
@@ -700,34 +700,34 @@ FIM_OBS:	MOV	M[COL_DESE],R0			;Apaga, incondicionalmente a coluna 0 da Janela de
 		RET	
 
 ; =============================================================================*
-; DISTANCIA_TUBOS: Rotina que atualiza as vari·veis da dist‚ncia percorrida e o* 
-;	           n∫ obst·culos ultrapassados.				       *
+; DISTANCIA_TUBOS: Rotina que atualiza as vari√°veis da dist√¢ncia percorrida e o* 
+;	           n¬∫ obst√°culos ultrapassados.				       *
 ; =============================================================================*
 DISTANCIA_TUBOS:PUSH	R3
 		PUSH	R4
 		PUSH	R5
-		INC	M[DISTANCIA_PER]		;Sempre que a rotina È chamada, È porque percorreu 1 coluna
-		MOV	R3,M[DISTANCIA_PER]		;R3 È a distancia percorrida
-		MOV	R4,DIST_SEM_OBS			;R4 È a distancia que o passaro percorre ate atingir o primeiro obst·culo
-		MOV	R5,ESPACO_TUBOS			;R5=espaÁo entre tubos
+		INC	M[DISTANCIA_PER]		;Sempre que a rotina √© chamada, √© porque percorreu 1 coluna
+		MOV	R3,M[DISTANCIA_PER]		;R3 √© a distancia percorrida
+		MOV	R4,DIST_SEM_OBS			;R4 √© a distancia que o passaro percorre ate atingir o primeiro obst√°culo
+		MOV	R5,ESPACO_TUBOS			;R5=espa√ßo entre tubos
 		INC	R5				;R5=R5+1
-		SUB	R3,R4				;O n˙mero de obst·culos È calculado pela diferenÁa da dist‚ncia 
-		BR.N	FIM_DIST_TUB			;pela dist‚ncia inicialmente percorrida sem obst·culos. 
-		DIV	R3,R5				;O resultado È dado pelo resto da divis„o da dist‚ncia percorrida
-		INC	R3				;pelo espaÁo entre tubos+1, incrementando mais 1
-		MOV	M[OBS_ULTRAPASSA],R3		;SÛ È atualizado caso a diferenÁa inicial n„o seja negativa
+		SUB	R3,R4				;O n√∫mero de obst√°culos √© calculado pela diferen√ßa da dist√¢ncia 
+		BR.N	FIM_DIST_TUB			;pela dist√¢ncia inicialmente percorrida sem obst√°culos. 
+		DIV	R3,R5				;O resultado √© dado pelo resto da divis√£o da dist√¢ncia percorrida
+		INC	R3				;pelo espa√ßo entre tubos+1, incrementando mais 1
+		MOV	M[OBS_ULTRAPASSA],R3		;S√≥ √© atualizado caso a diferen√ßa inicial n√£o seja negativa
 FIM_DIST_TUB:	POP	R5	
 		POP	R3
 		POP	R4
 		RET
 
 ; =============================================================================*
-; ATUALIZA_DISPLAYS: Rotina que atualiza a dist‚ncia e o nr obst·culos ultra-  *
+; ATUALIZA_DISPLAYS: Rotina que atualiza a dist√¢ncia e o nr obst√°culos ultra-  *
 ; 	    	     passados nos displays.				       *
 ; =============================================================================* 
 ATUALIZA_DISPLAYS:	PUSH	R3
 		PUSH	R4
-		MOV	R3,M[DISTANCIA_PER]		;Escreve a dist‚ncia no LCD
+		MOV	R3,M[DISTANCIA_PER]		;Escreve a dist√¢ncia no LCD
 		MOV	R4,POS_LCD_L1_2
 		PUSH	R3
 		PUSH	R4
@@ -738,8 +738,8 @@ ATUALIZA_DISPLAYS:	PUSH	R3
 		RET
 
 ; =============================================================================*
-; DESENHACOL: Rotina que cria uma coluna de X com o espaÁo		       *
-;	      Recebe o argumento pelo espaÁo de memÛria COL_DESE	       *
+; DESENHACOL: Rotina que cria uma coluna de X com o espa√ßo		       *
+;	      Recebe o argumento pelo espa√ßo de mem√≥ria COL_DESE	       *
 ; =============================================================================*
 DESENHACOL:	PUSH	R3
 		PUSH	R4
@@ -751,9 +751,9 @@ DESENHACOL:	PUSH	R3
 		ADD	R5,LINHA_22			;R5=linha22|Coluna
 CICLODES:	ADD	R3,INC_LINHA			;Escreve linha a linha
 		CMP	R3,M[COL_DESE]
-		BR.NZ	DESENHA				;Quando chega ‡ linha que endereÁa o espaÁo
+		BR.NZ	DESENHA				;Quando chega √† linha que endere√ßa o espa√ßo
 		ADD	R3,ESPACAMENTO			;Faz skip de 'ESPACAMENTO' linhas	
-DESENHA:	MOV	M[CURSOR_JT],R3			;Desenha as restantes atÈ linha 22
+DESENHA:	MOV	M[CURSOR_JT],R3			;Desenha as restantes at√© linha 22
 		MOV	M[ESCRITA_JT],R4
 		CMP	R3,R5
 		BR.NZ	CICLODES
@@ -764,7 +764,7 @@ DESENHA:	MOV	M[CURSOR_JT],R3			;Desenha as restantes atÈ linha 22
 
 ; =============================================================================*		
 ; APAGA_COL: Rotina que apaga uma coluna.				       *
-;	      Recebe o argumento pelo espaÁo de memÛria COL_DESE	       *
+;	      Recebe o argumento pelo espa√ßo de mem√≥ria COL_DESE	       *
 ; =============================================================================*
 APAGA_COL:	PUSH	R3
 		PUSH	R4
@@ -776,9 +776,9 @@ APAGA_COL:	PUSH	R3
 		ADD	R5,LINHA_22			;R5=linha22|Coluna
 CICLOAPA:	ADD	R3,INC_LINHA			;Apaga linha a linha
 		CMP	R3,M[COL_DESE]
-		BR.NZ	APAGA				;Quando chega ‡ linha que endereÁa o espaÁo
+		BR.NZ	APAGA				;Quando chega √† linha que endere√ßa o espa√ßo
 		ADD	R3,ESPACAMENTO			;Faz skip de 'ESPACAMENTO' linhas	
-APAGA:		MOV	M[CURSOR_JT],R3			;Apaga as restantes atÈ linha 22
+APAGA:		MOV	M[CURSOR_JT],R3			;Apaga as restantes at√© linha 22
 		MOV	M[ESCRITA_JT],R4
 		CMP	R3,R5
 		BR.NZ	CICLOAPA
@@ -788,7 +788,7 @@ APAGA:		MOV	M[CURSOR_JT],R3			;Apaga as restantes atÈ linha 22
 		RET
 
 ; =============================================================================*
-; LIMPA_JT: Rotina que limpa todo o conte˙do da Janela de Texto exceto a linha *
+; LIMPA_JT: Rotina que limpa todo o conte√∫do da Janela de Texto exceto a linha *
 ;	    0 e 23							       *
 ; =============================================================================*
 LIMPA_JT:	PUSH	R3
@@ -808,7 +808,7 @@ CICLOAPA_JT:	ADD	R3,INC_LINHA			;Apaga coluna a coluna
 		INC 	R5
 		INC	R3
 		AND	R3,GET_COL
-		DEC	R6				;AtÈ perfazer as 79 colunas
+		DEC	R6				;At√© perfazer as 79 colunas
 		BR.NZ	CICLOAPA_JT
 		POP	R6
 		POP	R5
@@ -818,14 +818,14 @@ CICLOAPA_JT:	ADD	R3,INC_LINHA			;Apaga coluna a coluna
 
 ; =============================================================================*
 ; RANDOMIZER: Rotina que gera uma coordenada sendo gerado um numero aleatorio  *
-;	      entre 1 e 17 para a linha, a coluna È sempre constante (78)      *
-;             Recebe o argumento pelo espaÁo de memÛria NUMRANDOM	       *
-;             Devolve o resultado pelo espaÁo de memÛria NEW_COL	       *
+;	      entre 1 e 17 para a linha, a coluna √© sempre constante (78)      *
+;             Recebe o argumento pelo espa√ßo de mem√≥ria NUMRANDOM	       *
+;             Devolve o resultado pelo espa√ßo de mem√≥ria NEW_COL	       *
 ; =============================================================================*
 RANDOMIZER:	PUSH	R3
 		PUSH	R4
 		PUSH	R6
-		MOV	R6,DIVISOR			;R6=Nr em que os valores aleatÛrios variam
+		MOV	R6,DIVISOR			;R6=Nr em que os valores aleat√≥rios variam
 		MOV	R3,M[NUMRANDOM]			;R3=Ni
 		MOV	R4,R3				;R4=Ni
 		AND	R3,BIT_MENOR			;Se o bit de menor peso for 1 => ELSE
@@ -834,23 +834,23 @@ RANDOMIZER:	PUSH	R3
 		MOV	M[NUMRANDOM],R4			;Guarda
 		DIV	R4,R6				;Divide e guarda o resto em R6 => FimRandom
 		BR	FIMRANDOM	
-ELSE:		XOR	R4,RANDOM_MASK			;Faz um XOR com a m·scara
+ELSE:		XOR	R4,RANDOM_MASK			;Faz um XOR com a m√°scara
 		ROR	R4,1				;Rotate right
 		MOV	M[NUMRANDOM],R4			;Guarda Valor
 		DIV	R4,R6				;Divide e guarda o resto em R6
-FIMRANDOM:	INC	R6				;R6=R6+1, n„o pode ser 0
+FIMRANDOM:	INC	R6				;R6=R6+1, n√£o pode ser 0
 		SHL	R6,8				;Shifta 8 bits para esquerda para ficar no octeto de maior peso (linha)
 		ADD	R6,COL_78			;Soma a coluna 78
-		MOV	M[NEW_COL],R6			;E guarda o valor no espaÁo de memÛria NEWCOL
+		MOV	M[NEW_COL],R6			;E guarda o valor no espa√ßo de mem√≥ria NEWCOL
 		POP	R6
 		POP	R4
 		POP	R3
 		RET
 
 ; =============================================================================*
-; COLISION_V: Rotina que verifica se o p·ssaro colidiu. Ora com os limites, ora*
-;	      com os obst·culos						       *
-; COLIS’ES: Rotina auxiliar do COLISION_V				       *
+; COLISION_V: Rotina que verifica se o p√°ssaro colidiu. Ora com os limites, ora*
+;	      com os obst√°culos						       *
+; COLIS√ïES: Rotina auxiliar do COLISION_V				       *
 ; =============================================================================*
 COLISION_V:	CMP	R2,0114h			;Verifica se o passaro bateu nos limites
 		JMP.N	FIM
@@ -875,7 +875,7 @@ COLISOES:	PUSH	R4
 		CMP	R7,NO_NEED			;NONEED = 2 COLUNAS DEPOIS DE PASSAR O PASSARO.
 		BR.NZ	CARRYON
 		INC	M[POINTER_TUBO]			;Passa para o proximo obstaculo caso ja tenha passado o passaro
-		MOV	R3,NUM_MAX_TUBOS		;Certifica-se que recomeÁa na primeira posicao do vetor depois de chegar a ultima
+		MOV	R3,NUM_MAX_TUBOS		;Certifica-se que recome√ßa na primeira posicao do vetor depois de chegar a ultima
 		CMP	M[POINTER_TUBO],R3
 		BR.NZ	CARRYON
 		MOV	M[POINTER_TUBO],R0
@@ -895,13 +895,13 @@ TRIAL:		PUSH    R4
 		MOV	R5,R6		
 		AND	R5,00FFh
 		AND	R4,00FFh
-		CMP	R5,R4				;Verifica se posiÁ„o do bico/corpo tem a mesma coluna do obstaculo a ser avaliado
+		CMP	R5,R4				;Verifica se posi√ß√£o do bico/corpo tem a mesma coluna do obstaculo a ser avaliado
 		BR.NZ   TERMINA	
 		MOV	R5,R6				;Coloca em R5 as coordenadas do obstaculo
-		CMP	R5,R3				;PosiÁ„o do inicio do espaÁo no obstaculo (menos) posiÁ„o do bico/corpo se for positivo, bateu
+		CMP	R5,R3				;Posi√ß√£o do inicio do espa√ßo no obstaculo (menos) posi√ß√£o do bico/corpo se for positivo, bateu
 		JMP.P	FIM
 		ADD	R5,ESPACAMENTO			
-		CMP	R5,R3				;PosiÁ„o do fim do espaÁo no obstaculo (menos) posiÁ„o do bico/corpo se nao for positivo, bateu
+		CMP	R5,R3				;Posi√ß√£o do fim do espa√ßo no obstaculo (menos) posi√ß√£o do bico/corpo se nao for positivo, bateu
 		JMP.NP	FIM
 TERMINA:	POP	R4
 		RET
@@ -916,13 +916,13 @@ TERMINA:	POP	R4
 ;# FIM                                     #
 ;###########################################
 ; =============================================================================*
-; INICIO: ExecuÁ„o principal do programa, inicializa interrupÁıes e portos de  * 
+; INICIO: Execu√ß√£o principal do programa, inicializa interrup√ß√µes e portos de  * 
 ;	  controlo							       *
 ; =============================================================================*
 INICIO:		MOV	R7,SP_INICIAL
 		MOV	SP,R7
                 MOV     R7,INT_MASK
-                MOV     M[INT_MASK_ADDR],R7	;Inicializa as interrupÁıes
+                MOV     M[INT_MASK_ADDR],R7	;Inicializa as interrup√ß√µes
 		MOV	R7,CONTROLO
 		MOV	M[CURSOR_JT],R7		;Inicializa o porto de posicionamento
 		MOV	M[TEMPO_GRAVIDADE],R0
@@ -943,39 +943,39 @@ INICIO_JOGO:	CALL	RESET_VARS
 		MOV	R3,1700h		;1700h corresponde a coordenada linha 23, coluna 0
 		MOV	M[COORD_TRACO],R3	;Atualiza COORD_TRACO com a coordenada da linha 23, coluna 0
 		CALL 	LINHA
-		MOV	R3,FIM_STR		;Coloca @ no ˙ltimo espaÁo de memÛria de SCORE (ser usado como string)
+		MOV	R3,FIM_STR		;Coloca @ no √∫ltimo espa√ßo de mem√≥ria de SCORE (ser usado como string)
 		MOV	R4,SCORE
 		MOV	M[R4+4],R3
-		CALL 	ATUALIZA_DISPLAYS	;… colocada a zeros a dist‚ncia no LCD e o n∫ de Obst·culos nos Displays
+		CALL 	ATUALIZA_DISPLAYS	;√â colocada a zeros a dist√¢ncia no LCD e o n¬∫ de Obst√°culos nos Displays
 		CALL	MENU1
 		MOV	M[I1],R0
 		CALL	MENU2
 		MOV	M[I1],R0
-		MOV	R1,POS_PASSARO		;R1=primeira posiÁ„o do p·ssaro
-		MOV	R2,POS_PASSARO		;R2=primeira posiÁ„o do p·ssaro
+		MOV	R1,POS_PASSARO		;R1=primeira posi√ß√£o do p√°ssaro
+		MOV	R2,POS_PASSARO		;R2=primeira posi√ß√£o do p√°ssaro
 		CALL 	PASSARO			;Escreve o passaro
-		MOV	M[Y0],R2		;Y0 È iniciado com a primeira posiÁ„o do p·ssaro	
-		MOV	M[CONTADOR_TEMPO],R0	;Reiniciar algumas vari·veis para evitar erros
+		MOV	M[Y0],R2		;Y0 √© iniciado com a primeira posi√ß√£o do p√°ssaro	
+		MOV	M[CONTADOR_TEMPO],R0	;Reiniciar algumas vari√°veis para evitar erros
 		MOV 	M[SALTOU],R0
 		MOV	R3,M[NIVEL]
-		MOV	M[ASS_NIVEL],R3		;Coloca o nivel no contador assistente de nÌvel
+		MOV	M[ASS_NIVEL],R3		;Coloca o nivel no contador assistente de n√≠vel
 
 JOGO:		CALL	ATUALIZA_DISPLAYS
 		CMP	M[ASS_NIVEL],R0
-		CALL.Z	OBSTACULOS		;OBST¡CULOS È chamada se M[ASS_NIVEL]=0
+		CALL.Z	OBSTACULOS		;OBST√ÅCULOS √© chamada se M[ASS_NIVEL]=0
 		CMP	M[SALTOU],R0
-		CALL.NZ	SALTO			;SALTO È chamada se M[SALTOU]!=0
+		CALL.NZ	SALTO			;SALTO √© chamada se M[SALTOU]!=0
 		CMP	M[SALTOU],R0
-		CALL.Z	GRAVIDADE		;GRAVIDADE È chamada se M[SALTOU]=0
+		CALL.Z	GRAVIDADE		;GRAVIDADE √© chamada se M[SALTOU]=0
 		CALL	COLISION_V
 		CMP	R1,R2
-		BR.Z	JOGO			;Se R1=R2 n„o chama o PASSARO
+		BR.Z	JOGO			;Se R1=R2 n√£o chama o PASSARO
 		CALL	PASSARO
 		BR	JOGO
 FIM1:		MOV	R2,1614h		;Vem do COLISION_V
 		CALL 	PASSARO
 FIM:		CALL	LIMPA_JT		;Limpa a Janela de Texto
-		MOV	R3,TextoFinal		;Escreve a pontuaÁ„o e as mensagens finais.
+		MOV	R3,TextoFinal		;Escreve a pontua√ß√£o e as mensagens finais.
 		MOV	R4,POS_TEXTO_L1
 		PUSH	R3
 		PUSH	R4
@@ -995,7 +995,7 @@ FIM:		CALL	LIMPA_JT		;Limpa a Janela de Texto
 		PUSH	R3
 		PUSH	R4
 		CALL	ESCREVESTR		
-CICLO_FIM:	CMP	M[I1],R0		;Se I1 n„o for ativo, continua no ciclo
+CICLO_FIM:	CMP	M[I1],R0		;Se I1 n√£o for ativo, continua no ciclo
 		BR.Z	CICLO_FIM
-		CALL	LIMPA_JT		;Caso contr·rio Limpa Janela de Texto e volta para o inicio
+		CALL	LIMPA_JT		;Caso contr√°rio Limpa Janela de Texto e volta para o inicio
 		JMP	INICIO
